@@ -1,0 +1,404 @@
+:root {
+    --bg-obsidian: #0b0c10;
+    --bg-sidebar: rgba(15, 17, 23, 0.95);
+    --bg-card-glass: rgba(26, 29, 38, 0.7);
+    --gold-primary: #d4af37;
+    --gold-hover: #f3e5ab;
+    --text-light: #e5e7eb;
+    --text-muted: #9ca3af;
+    --border-glass: rgba(212, 175, 55, 0.15);
+    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --sidebar-width: 340px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-main);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-obsidian);
+    color: var(--text-light);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+/* App Layout - Responsive Flex Container */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+/* Sidebar Styling with Custom Scrollbars */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-sidebar);
+    border-inline-end: 1px solid var(--border-glass);
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    gap: 20px;
+    flex-shrink: 0;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.brand h2 {
+    color: var(--gold-primary);
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 1px solid var(--border-glass);
+    padding-bottom: 15px;
+}
+
+/* Language Switcher Grid */
+.lang-switcher {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.lang-switcher button {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 8px 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.lang-switcher button:hover, .lang-switcher button.active {
+    color: var(--bg-obsidian);
+    background: var(--gold-primary);
+}
+
+/* Section Title */
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--gold-primary);
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Lists Containment */
+.list-container {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-inline-end: 4px;
+}
+
+/* Webkit Scrollbar Customization */
+.list-container::-webkit-scrollbar {
+    width: 4px;
+}
+.list-container::-webkit-scrollbar-thumb {
+    background: var(--border-glass);
+    border-radius: 4px;
+}
+
+/* Node List Items */
+.item-node {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid transparent;
+    padding: 12px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+.item-node:hover {
+    border-color: var(--border-glass);
+    background: rgba(212, 175, 55, 0.04);
+}
+
+.item-node.active {
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.15), transparent);
+    border-inline-start: 3px solid var(--gold-primary);
+    color: var(--gold-primary);
+    font-weight: 600;
+}
+
+/* Main Content Wrapper */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    overflow-y: auto;
+    background: radial-gradient(circle at 90% 10%, rgba(212, 175, 55, 0.03), transparent 40%);
+}
+
+/* Bento Glassmorphism Header Player Card */
+.display-card {
+    background: var(--bg-card-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    text-align: center;
+}
+
+.current-info h1 {
+    color: var(--gold-primary);
+    font-size: 2rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.current-info p {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* Mechanical Audio Interface Controls */
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-control {
+    background: transparent;
+    border: 1px solid var(--border-glass);
+    color: var(--text-light);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.btn-control:hover {
+    border-color: var(--gold-primary);
+    color: var(--gold-primary);
+}
+
+.btn-control.btn-play {
+    width: 60px;
+    height: 60px;
+    background: var(--gold-primary);
+    color: var(--bg-obsidian);
+    border: none;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+}
+
+.btn-control.btn-play:hover {
+    background: var(--gold-hover);
+    transform: scale(1.03);
+}
+
+/* Progress Slider Integration */
+.progress-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+#progress-bar {
+    flex: 1;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.08);
+    height: 4px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+#progress-bar::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--gold-primary);
+    box-shadow: 0 0 8px var(--gold-primary);
+}
+
+/* Panel Interpretation Interface */
+.interpretation-panel {
+    background: rgba(20, 22, 28, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--gold-primary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.panel-body {
+    line-height: 1.8;
+    color: var(--text-light);
+    font-size: 1.05rem;
+    text-align: justify;
+}
+
+.placeholder-text {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* ==========================================================================
+   MEDIA QUERIES - RESPONSIVE ARCHITECTURE
+   ========================================================================== */
+
+/* 1. Tablets and Smaller Desktops (Max-width: 1024px) */
+@media (max-width: 1024px) {
+    /* تحديد أن تغيير حجم المتغير يتم على مستوى جذر الملف */
+    :root {
+        --sidebar-width: 280px;
+    }
+
+    .main-content {
+        padding: 24px;
+    }
+
+    .display-card {
+        padding: 30px;
+    }
+
+    .current-info h1 {
+        font-size: 1.75rem;
+    }
+}
+/* 2. Mobile Landscape & Portrait Breakpoint (Max-width: 768px) */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column; /* تحويل التخطيط من أفقي إلى عمودي */
+    }
+
+    /* تحويل السايدبار إلى قسم علوي ذكي ومرن */
+    .sidebar {
+        width: 100%;
+        height: auto;
+        max-height: 45vh; /* حجز مساحة علوية معقولة للقوائم */
+        border-inline-end: none;
+        border-bottom: 1px solid var(--border-glass);
+        padding: 16px;
+        gap: 12px;
+        overflow-y: auto;
+    }
+
+    .brand h2 {
+        font-size: 1.2rem;
+        padding-bottom: 8px;
+    }
+
+    /* جعل القوائم تظهر بجانب بعضها أو منسدلة بشكل أفضل */
+    .list-container {
+        max-height: 120px; /* تحديد طول القوائم لمنع اختفاء المشغل */
+    }
+
+    .main-content {
+        height: 55vh; /* بقية المساحة للمشغل والتفسير */
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .display-card {
+        padding: 20px;
+        gap: 16px;
+    }
+
+    .current-info h1 {
+        font-size: 1.5rem;
+    }
+
+    .current-info p {
+        font-size: 0.9rem;
+    }
+
+    .btn-control {
+        width: 44px;
+        height: 44px;
+    }
+
+    .btn-control.btn-play {
+        width: 54px;
+        height: 54px;
+    }
+}
+
+/* 3. Extra Small Screen Smart Phones (Max-width: 480px) */
+@media (max-width: 480px) {
+    .sidebar {
+        max-height: 40vh;
+        padding: 12px;
+    }
+
+    .lang-switcher button {
+        font-size: 0.7rem;
+        padding: 6px 2px;
+    }
+
+    .item-node {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+
+    .main-content {
+        height: 60vh;
+        padding: 12px;
+    }
+
+    .display-card {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .current-info h1 {
+        font-size: 1.3rem;
+    }
+
+    .player-controls {
+        gap: 12px;
+    }
+
+    .panel-body {
+        font-size: 0.95rem;
+    }
+}

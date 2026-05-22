@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Platform | المنصة القرآنية</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons for Elite UI -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Sidebar: Reciters & Surahs Selector -->
+        <aside class="sidebar">
+            <div class="brand">
+                <h2>Masood Quran</h2>
+            </div>
+            
+            <!-- Language Switcher -->
+            <div class="lang-switcher">
+                <button onclick="switchLanguage('badini')">باديني</button>
+                <button onclick="switchLanguage('sorani')">سوراني</button>
+                <button onclick="switchLanguage('ar')">العربية</button>
+                <button onclick="switchLanguage('en')">English</button>
+            </div>
+
+            <!-- Reciters Section -->
+            <div class="section-title">
+                <i data-lucide="users"></i> <span id="txt-reciters">القراء</span>
+            </div>
+            <div class="list-container" id="reciters-list">
+                <!-- Will be populated by JS -->
+            </div>
+
+            <!-- Surahs Section -->
+            <div class="section-title">
+                <i data-lucide="book-open"></i> <span id="txt-surahs">السور</span>
+            </div>
+            <div class="list-container" id="surahs-list">
+                <!-- Will be populated by JS -->
+            </div>
+        </aside>
+
+        <!-- Main Content: Player & Interpretation -->
+        <main class="main-content">
+            <!-- Glassmorphism Display Card -->
+            <div class="display-card">
+                <div class="current-info">
+                    <h1 id="current-surah">سورة الفاتحة</h1>
+                    <p id="current-reciter">القارئ: الشيخ عبد الباسط عبد الصمد</p>
+                </div>
+                
+                <!-- Audio Element (Hidden placeholder, controlled by custom UI) -->
+                <audio id="main-audio" src=""></audio>
+
+                <!-- Custom Audio Controls -->
+                <div class="player-controls">
+                    <button class="btn-control" id="btn-prev"><i data-lucide="skip-back"></i></button>
+                    <button class="btn-control btn-play" id="btn-play"><i data-lucide="play"></i></button>
+                    <button class="btn-control" id="btn-next"><i data-lucide="skip-forward"></i></button>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <span id="time-current">00:00</span>
+                    <input type="range" id="progress-bar" value="0" min="0" max="100">
+                    <span id="time-total">00:00</span>
+                </div>
+            </div>
+
+            <!-- Interpretation & Meaning Section -->
+            <section class="interpretation-panel">
+                <div class="panel-header">
+                    <i data-lucide="file-text"></i>
+                    <h3 id="txt-details">التفسير والمعاني (تەفسير و واتا)</h3>
+                </div>
+                <div class="panel-body" id="interpretation-content">
+                    <!-- Dynamic content based on language and selected surah -->
+                    <p class="placeholder-text">اختر السورة والقارئ لبدء الاستماع وعرض التفسير باللغة المطلوبة.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Load Scripts -->
+    <script src="translations.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
