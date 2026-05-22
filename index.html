@@ -3,67 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quran Platform | المنصة القرآنية</title>
+    <title>Masood Quran & Hadith | المنصة الرقمية المتكاملة</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Lucide Icons for Elite UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Cairo:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body data-theme="obsidian">
 
-    <!-- App Container -->
     <div class="app-container">
         
-        <!-- Sidebar: Reciters & Surahs Selector -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="app-sidebar">
             <div class="brand">
-                <h2>Masood Quran</h2>
+                <h2>MASOOD.DEV QURAN</h2>
             </div>
             
-            <!-- Language Switcher -->
+            <div class="preferences-panel">
+                <button class="pref-btn" id="theme-toggle-btn" onclick="toggleTheme()" title="تبديل المظهر / گوهڕينا ثيمي">
+                    <i data-lucide="moon"></i>
+                </button>
+                <div class="font-scaler">
+                    <button class="scale-btn" onclick="adjustFontSize(-2)" title="تصغير الخط">-A</button>
+                    <button class="scale-btn" onclick="adjustFontSize(2)" title="تكبير الخط">+A</button>
+                </div>
+            </div>
+            
             <div class="lang-switcher">
-                <button onclick="switchLanguage('badini')">باديني</button>
-                <button onclick="switchLanguage('sorani')">سوراني</button>
-                <button onclick="switchLanguage('ar')">العربية</button>
-                <button onclick="switchLanguage('en')">English</button>
+                <button id="lang-badini" onclick="switchLanguage('badini')">بادینی</button>
+                <button id="lang-sorani" onclick="switchLanguage('sorani')">سۆرانی</button>
+                <button id="lang-ar" onclick="switchLanguage('ar')">العربية</button>
+                <button id="lang-en" onclick="switchLanguage('en')">English</button>
             </div>
 
-            <!-- Reciters Section -->
+            <div class="search-wrapper">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="surah-search" placeholder="ابحث عن سورة... / لێگەڕیان..." oninput="filterSurahs()">
+            </div>
+
             <div class="section-title">
-                <i data-lucide="users"></i> <span id="txt-reciters">القراء</span>
+                <i data-lucide="mic"></i> <span id="txt-reciters">القراء</span>
             </div>
-            <div class="list-container" id="reciters-list">
-                <!-- Will be populated by JS -->
-            </div>
+            <div class="list-container" id="reciters-list"></div>
 
-            <!-- Surahs Section -->
             <div class="section-title">
                 <i data-lucide="book-open"></i> <span id="txt-surahs">السور</span>
             </div>
-            <div class="list-container" id="surahs-list">
-                <!-- Will be populated by JS -->
-            </div>
+            <div class="list-container" id="surahs-list"></div>
         </aside>
 
-        <!-- Main Content: Player & Interpretation -->
         <main class="main-content">
-            <!-- Glassmorphism Display Card -->
+            
+            <div class="mobile-top-bar">
+                <button class="menu-trigger" onclick="toggleMobileSidebar()">
+                    <i data-lucide="menu"></i>
+                    <span id="mobile-nav-title">Masood Quran</span>
+                </button>
+                <button class="pref-btn" onclick="toggleTheme()">
+                    <i data-lucide="sparkles"></i>
+                </button>
+            </div>
+            
             <div class="display-card">
                 <div class="current-info">
                     <h1 id="current-surah">سورة الفاتحة</h1>
                     <p id="current-reciter">القارئ: الشيخ عبد الباسط عبد الصمد</p>
                 </div>
                 
-                <!-- Audio Element (Hidden placeholder, controlled by custom UI) -->
                 <audio id="main-audio" src=""></audio>
 
-                <!-- Custom Audio Controls -->
                 <div class="player-controls">
                     <button class="btn-control" id="btn-prev"><i data-lucide="skip-back"></i></button>
                     <button class="btn-control btn-play" id="btn-play"><i data-lucide="play"></i></button>
                     <button class="btn-control" id="btn-next"><i data-lucide="skip-forward"></i></button>
                 </div>
 
-                <!-- Progress Bar -->
                 <div class="progress-container">
                     <span id="time-current">00:00</span>
                     <input type="range" id="progress-bar" value="0" min="0" max="100">
@@ -71,21 +85,58 @@
                 </div>
             </div>
 
-            <!-- Interpretation & Meaning Section -->
+            <section class="verses-viewport">
+                <div class="panel-header">
+                    <i data-lucide="bookmark"></i>
+                    <h3 id="txt-verses-title">الآية الحالية والترجمة المتزامنة</h3>
+                </div>
+                <div class="verse-display-engine" id="verse-display-box">
+                    <p class="arabic-verse-text" id="live-arabic-verse">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                    <div class="verse-divider-line"></div>
+                    <p class="translated-verse-text" id="live-translated-verse">ب ناڤێ خودێ مه‌زن و دلۆڤان.</p>
+                </div>
+            </section>
+
+            <section class="hadith-panel">
+                <div class="panel-header" style="justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="quote"></i>
+                        <h3 id="txt-hadith-title">الحديث النبوي الشريف (فەرموودە)</h3>
+                    </div>
+                    <button class="next-hadith-btn" onclick="fetchGlobalHadith()" title="حديث آخر / فەرموودەیەکی تر">
+                        <i data-lucide="refresh-cw" style="width: 14px; height: 14px;"></i>
+                    </button>
+                </div>
+                <div class="hadith-loading" id="hadith-loader" style="display:none;">
+                    <div class="spinner"></div>
+                </div>
+                <div class="hadith-container-body" id="hadith-content-box">
+                    <p class="hadith-arabic" id="hadith-txt-ar">جاري تحميل الحديث الشريف...</p>
+                    <div class="verse-divider-line"></div>
+                    <div class="hadith-translations-stack">
+                        <div class="hadith-tr-node">
+                            <span class="badge">Kurdî</span>
+                            <p class="hadith-txt-lang" id="hadith-txt-ku">بارکرنا فەرموودێ...</p>
+                        </div>
+                        <div class="hadith-tr-node">
+                            <span class="badge">English</span>
+                            <p class="hadith-txt-lang" id="hadith-txt-en">Loading holy narrative translation...</p>
+                        </div>
+                    </div>
+                    <div class="hadith-meta-footer" id="hadith-meta-source">المصدر: صحيح البخاري</div>
+                </div>
+            </section>
+
             <section class="interpretation-panel">
                 <div class="panel-header">
                     <i data-lucide="file-text"></i>
                     <h3 id="txt-details">التفسير والمعاني (تەفسير و واتا)</h3>
                 </div>
-                <div class="panel-body" id="interpretation-content">
-                    <!-- Dynamic content based on language and selected surah -->
-                    <p class="placeholder-text">اختر السورة والقارئ لبدء الاستماع وعرض التفسير باللغة المطلوبة.</p>
-                </div>
+                <div class="panel-body" id="interpretation-content"></div>
             </section>
         </main>
     </div>
 
-    <!-- Load Scripts -->
     <script src="translations.js"></script>
     <script src="app.js"></script>
 </body>
